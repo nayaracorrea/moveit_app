@@ -1,5 +1,5 @@
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, HeaderBackground } from '@react-navigation/stack'
 import Home from '../screens/Home'
 
 import Header from '../shared/Header'
@@ -11,7 +11,7 @@ const MainStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen name='Home' component={Home} options={ ({ navigation }) => {
         return {
-          headerTitle: () => <Header navigation={navigation} title='Início' />
+          headerTitle: () => <Header navigation={navigation} title='Início' />,
         }     
       }}/>
     </Stack.Navigator>
