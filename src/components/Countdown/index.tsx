@@ -1,71 +1,118 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet } from 'react-native'
 
-import CheckCircle from '../../assets/svg/check-circle'
 import PlayArrow from '../../assets/svg/play_arrow'
+import Abandon from '../../assets/svg/abandon'
+import CheckCircle from '../../assets/svg/check-circle'
 
 import {
- Container,
- SecondContainer,
- FirstTime,
- SeparationTime,
- SecondTime,
- ButtonContainer,
- Button,
- ButtonText
+  Container,
+  Body,
+  BoxCount,
+  Time,
+  SeparatorContainer,
+  Separator,
+  ButtonStart,
+  ButtonAbandon,
+  ButtonFinished,
+  TitleButton,
+  TitleButtonFinished
 } from './styles'
 
-const Countdown = () => {
- return (
-  <View style={{ flex: 1 }}>
-   <View
-    style={{
-     height: '25%',
-     backgroundColor: '#000',
-     justifyContent: 'center',
-     alignItems: 'center'
-    }}
-   >
-    <View
-     style={{
-      display: 'flex',
-      justifyContent: 'flex-start',
-      alignItems: 'center'
-     }}
-    >
-     <Text style={{ color: '#fff' }}>
-      Finalize um ciclo para receber um novo desafio
-     </Text>
-    </View>
-   </View>
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+     width: 0,
+     height: 3
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+ 
+    elevation: 7
+  }
+})
 
-   <View
-    style={{ height: '50%', justifyContent: 'center', alignItems: 'center' }}
-   >
+let countdownTimeout: NodeJS.Timeout;
+
+export const Countdown = () => {
+  const [time, setTime] = useState(0.1 * 60)
+  const [isActive, setIsActive] = useState(false)
+  const [hasFinished, setHasFinished] = useState(false)
+
+  const minutes = Math.floor(time / 60)
+  const seconds = time % 60
+
+  const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split('');
+  const [secondLeft, secondRight] = String(seconds).padStart(2, '0').split('');
+
+  function startCountdown() {
+    setIsActive(true)
+  }
+
+  function resetCountdown() {
+    clearTimeout(countdownTimeout)
+    setIsActive(false)
+    setTime(0.1 * 60)
+  }
+
+  useEffect(() => {
+    if (isActive && time > 0) {
+      countdownTimeout = setTimeout(() => {
+        setTime(time - 1)
+      }, 1000)
+    } else if (isActive && time == 0) {
+      setHasFinished(true)
+      setIsActive(false)
+    }
+  }, [isActive, time])
+
+  return (
     <Container>
-     <SecondContainer>
-      <FirstTime>1</FirstTime>
-      <SecondTime>2</SecondTime>
-     </SecondContainer>
-     <SeparationTime>:</SeparationTime>
-     <SecondContainer>
-      <FirstTime>1</FirstTime>
-      <SecondTime>2</SecondTime>
-     </SecondContainer>
+      <Body>
+        <BoxCount style={styles.shadow}>
+          <Time>{minuteLeft}</Time>
+        </BoxCount>
+        <BoxCount style={styles.shadow}>
+          <Time>{minuteRight}</Time>
+        </BoxCount>
+        <SeparatorContainer>
+          <Separator>:</Separator>
+        </SeparatorContainer>
+        <BoxCount style={styles.shadow}>
+          <Time>{secondLeft}</Time>
+        </BoxCount>
+        <BoxCount style={styles.shadow}>
+          <Time>{secondRight}</Time>
+        </BoxCount>
+      </Body>
+
+      { hasFinished ? (
+          <ButtonFinished onPress={startCountdown} disabled>
+            <TitleButtonFinished>Ciclo encerrado</TitleButtonFinished>
+            <CheckCircle width={25} height={25} />
+          </ButtonFinished>
+      ) : (
+        <>
+          { isActive ? (
+            <ButtonAbandon onPress={resetCountdown}>
+              <TitleButton>Abandonar ciclo</TitleButton>
+              <Abandon width={30} height={30} />
+            </ButtonAbandon>
+          ) : (
+            <ButtonStart onPress={startCountdown}>
+              <TitleButton>Iniciar um ciclo</TitleButton>
+              <PlayArrow width={30} height={30} />
+            </ButtonStart>
+          )}
+        </>
+      )}
+
+
+
+
+
+
     </Container>
-
-    <ButtonContainer>
-     <Button>
-      <ButtonText>Iniciar novo ciclo</ButtonText>
-      <PlayArrow width="40%" height="40%" />
-     </Button>
-    </ButtonContainer>
-   </View>
-
-   <View style={{ height: '25%', backgroundColor: '#000' }}></View>
-  </View>
- )
+  )
 }
-
-export default Countdown

@@ -7,7 +7,7 @@ interface HeaderProps {
  onPress(): void
 }
 
-const Header = ({ title, onPress }: HeaderProps) => {
+export const Header = ({ title, onPress }: HeaderProps) => {
  return (
   <Container>
    <Icon size={25} name="menu" onPress={onPress} />
@@ -17,5 +17,3 @@ const Header = ({ title, onPress }: HeaderProps) => {
   </Container>
  )
 }
-
-export default Header
