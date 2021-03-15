@@ -11,10 +11,12 @@ export const Container = styled.View`
 
 export const InitialValueExpBar = styled.Text`
  font-size: 16px;
+ color: #fff;
 `
 
 export const FinalValueExpBar = styled.Text`
  font-size: 16px;
+ color: #fff;
 `
 
 export const LineExternalContainer = styled.View`
@@ -31,9 +33,4 @@ export const LineInternalContainer = styled.View`
  height: 8px;
  border-radius: 4px;
  background: #4cd62b;
-`
-
-export const CurrentExperience = styled.Text`
- color: #fff;
- font-size: 16px;
 `

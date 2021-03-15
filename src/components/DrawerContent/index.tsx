@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { DrawerContentComponentProps } from '@react-navigation/drawer'
 import MenuItem from '../MenuItem'
@@ -16,6 +16,7 @@ import {
 } from './styles'
 
 import Level from '../../assets/svg/level'
+import { ChallengesContext } from '../../contexts/ChallengesContext'
 
 const DrawerContent = (
  props: DrawerContentComponentProps
@@ -33,6 +34,8 @@ const DrawerContent = (
   }
  ]
 
+  const { level } = useContext(ChallengesContext)
+
  return (
   <Container>
    <Body>
@@ -41,7 +44,7 @@ const DrawerContent = (
      <NameUser>Nayara Corrêa</NameUser>
      <LevelContainer>
       <Level width="40%" height="40%" />
-      <LevelUser>Level 1</LevelUser>
+      <LevelUser>Level {level}</LevelUser>
      </LevelContainer>
     </HeaderBody>
     {menuItems.map((item) => (

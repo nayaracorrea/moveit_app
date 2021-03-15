@@ -8,13 +8,16 @@ import { enableScreens } from 'react-native-screens'
 
 import Routes from './src/routes/index'
 
-import Navigator from './src/routes/MainNavigator'
+import { ChallengesProvider } from './src/contexts/ChallengesContext'
 
 const App = () => {
  return (
-  <NavigationContainer>
-   <Routes />
-  </NavigationContainer>
+   <ChallengesProvider>
+      <NavigationContainer>
+       <Routes />
+      </NavigationContainer>
+   </ChallengesProvider>
+
  )
 }
 

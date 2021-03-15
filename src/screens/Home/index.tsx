@@ -14,6 +14,7 @@ import {
   Container,
   Body
 } from './styles'
+import { CountdownProvider } from '../../contexts/CountdownContext'
 
 
 const Home = () => {
@@ -26,11 +27,14 @@ const Home = () => {
   <Container>
     <Header title="Home" onPress={() => navigation.openDrawer()} /> 
     
-    <Body>
-     <ChallengesCompleted />
-     <Countdown />
-     <ChallengeBox /> 
-    </Body>
+    <CountdownProvider>
+      <Body>
+       <ChallengesCompleted />
+       <Countdown />
+       <ChallengeBox /> 
+      </Body>
+    </CountdownProvider>
+
   </Container>
  )
 }
